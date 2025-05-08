@@ -25,7 +25,7 @@ def get_user_profile():
     return {
         'username': info['username'],
         'full_name': info['full_name'],
-        'profile_pic_url': info['profile_pic_url'],
+        'profile_pic_url': info['profile_pic_url_hd'] if 'profile_pic_url_hd' in info else info['profile_pic_url'],
         'bio': info['biography'],
         'followers': info['follower_count'],
         'following': info['following_count'],
@@ -43,7 +43,7 @@ def get_following():
             'user_id': uid,
             'username': info['username'],
             'full_name': info['full_name'],
-            'profile_pic_url': info['profile_pic_url']
+            'profile_pic_url': info['profile_pic_url_hd'] if 'profile_pic_url_hd' in info else info['profile_pic_url']
         })
     return users
 
