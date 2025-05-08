@@ -12,15 +12,19 @@ def get_user_profile():
     global bot
     user_id = bot.user_id
     info = bot.get_user_info(user_id)
-    print(info)  # لمراقبة بيانات الحساب في سجل Render
+    print("USER INFO:", info)  # لوج كامل في سجل Render
     return {
         'username': info.get('username', ''),
         'full_name': info.get('full_name', ''),
-        'profile_pic_url': info.get('profile_pic_url_hd') or info.get('profile_pic_url', ''),
         'bio': info.get('biography', ''),
+        'profile_pic_url': info.get('profile_pic_url_hd') or info.get('profile_pic_url', ''),
         'followers': info.get('follower_count', 0),
         'following': info.get('following_count', 0),
-        'user_id': user_id
+        'media_count': info.get('media_count', 0),
+        'is_private': info.get('is_private', False),
+        'is_verified': info.get('is_verified', False),
+        'external_url': info.get('external_url', ''),
+        'user_id': user_id,
     }
 
 def get_following():
@@ -34,7 +38,9 @@ def get_following():
             'user_id': uid,
             'username': info.get('username', ''),
             'full_name': info.get('full_name', ''),
-            'profile_pic_url': info.get('profile_pic_url_hd') or info.get('profile_pic_url', '')
+            'profile_pic_url': info.get('profile_pic_url_hd') or info.get('profile_pic_url', ''),
+            'is_private': info.get('is_private', False),
+            'is_verified': info.get('is_verified', False),
         })
     return users
 
@@ -74,6 +80,9 @@ def login():
 def profile():
     if 'logged_in' not in session or not session['logged_in']:
         return redirect(url_for('index'))
+    # جلب معلومات الحساب كل مرة لضمان التحديث
+    global user_info
+    user_info = get_user_profile()
     return render_template('profile.html', user=user_info)
 
 @app.route('/following', methods=['GET'])
