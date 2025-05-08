@@ -1,0 +1,3 @@
+Flask==2.2.5
+instabot==0.117.0
+schedule==1.2.1
