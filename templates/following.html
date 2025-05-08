@@ -38,7 +38,14 @@
                         <div class="d-flex align-items-center gap-3">
                             <img src="{{ user['profile_pic_url'] }}" width="50" height="50" class="rounded-circle border">
                             <div>
-                                <b>{{ user['full_name'] }}</b><br>
+                                <b>{{ user['full_name'] }}</b>
+                                {% if user['is_private'] %}
+                                    <span class="badge bg-warning text-dark">خاص</span>
+                                {% endif %}
+                                {% if user['is_verified'] %}
+                                    <span class="badge bg-info text-dark">موثّق</span>
+                                {% endif %}
+                                <br>
                                 <small class="text-muted">@{{ user['username'] }}</small>
                             </div>
                         </div>
