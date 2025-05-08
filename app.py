@@ -1,8 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from instabot import Bot
-import schedule
-import threading
-import time
 import os
 
 app = Flask(__name__)
@@ -11,24 +8,18 @@ app.secret_key = 'your_secret_key'
 bot = None
 user_info = {}
 
-def unfollow_user(user_id):
-    global bot
-    if bot:
-        bot.unfollow(user_id)
-        return True
-    return False
-
 def get_user_profile():
     global bot
     user_id = bot.user_id
     info = bot.get_user_info(user_id)
+    print(info)  # لمراقبة بيانات الحساب في سجل Render
     return {
-        'username': info['username'],
-        'full_name': info['full_name'],
-        'profile_pic_url': info['profile_pic_url_hd'] if 'profile_pic_url_hd' in info else info['profile_pic_url'],
-        'bio': info['biography'],
-        'followers': info['follower_count'],
-        'following': info['following_count'],
+        'username': info.get('username', ''),
+        'full_name': info.get('full_name', ''),
+        'profile_pic_url': info.get('profile_pic_url_hd') or info.get('profile_pic_url', ''),
+        'bio': info.get('biography', ''),
+        'followers': info.get('follower_count', 0),
+        'following': info.get('following_count', 0),
         'user_id': user_id
     }
 
@@ -41,11 +32,18 @@ def get_following():
         info = bot.get_user_info(uid)
         users.append({
             'user_id': uid,
-            'username': info['username'],
-            'full_name': info['full_name'],
-            'profile_pic_url': info['profile_pic_url_hd'] if 'profile_pic_url_hd' in info else info['profile_pic_url']
+            'username': info.get('username', ''),
+            'full_name': info.get('full_name', ''),
+            'profile_pic_url': info.get('profile_pic_url_hd') or info.get('profile_pic_url', '')
         })
     return users
+
+def unfollow_user(user_id):
+    global bot
+    if bot:
+        bot.unfollow(user_id)
+        return True
+    return False
 
 @app.route('/', methods=['GET'])
 def index():
