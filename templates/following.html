@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>قائمة المتابَعون</title>
+    <script>
+        function unfollow(user_id, btn) {
+            btn.disabled = true;
+            fetch('/unfollow', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'user_id=' + user_id
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    btn.innerText = 'تم الإلغاء';
+                    btn.style.background = "#aaa";
+                } else {
+                    btn.disabled = false;
+                    alert('فشل إلغاء المتابعة');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>قائمة المتابَعون</h2>
+    <a href="/profile">العودة للملف الشخصي</a>
+    <ul>
+    {% for user in users %}
+        <li>
+            <img src="{{ user['profile_pic_url'] }}" width="40" height="40" style="border-radius: 50%;">
+            {{ user['full_name'] }} (@{{ user['username'] }})
+            <button onclick="unfollow('{{ user['user_id'] }}', this)">إلغاء المتابعة</button>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

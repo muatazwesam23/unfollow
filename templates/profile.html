@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>ملفك الشخصي</title>
+</head>
+<body>
+    <h2>معلومات الحساب</h2>
+    <img src="{{ user['profile_pic_url'] }}" width="120" height="120" style="border-radius: 50%;"><br>
+    <b>{{ user['full_name'] }}</b> (@{{ user['username'] }})<br>
+    <p>{{ user['bio'] }}</p>
+    <p>
+        المتابعون: {{ user['followers'] }}<br>
+        <a href="{{ url_for('following') }}">المتابَعون: {{ user['following'] }}</a>
+    </p>
+    <form method="POST" action="/logout">
+        <button type="submit">تسجيل الخروج</button>
+    </form>
+</body>
+</html>
