@@ -13,7 +13,7 @@
                 <h4>{{ user['full_name'] }}</h4>
                 <h6 class="text-muted">@{{ user['username'] }}</h6>
                 <p>{{ user['bio'] }}</p>
-                <div class="d-flex justify-content-center gap-4">
+                <div class="d-flex justify-content-center gap-4 mb-3">
                     <div>
                         <span class="fw-bold">{{ user['followers'] }}</span><br>
                         <span>المتابعون</span>
@@ -24,7 +24,22 @@
                             <span>المتابَعون</span>
                         </a>
                     </div>
+                    <div>
+                        <span class="fw-bold">{{ user['media_count'] }}</span><br>
+                        <span>المنشورات</span>
+                    </div>
                 </div>
+                <div class="mb-2">
+                    {% if user['is_private'] %}
+                        <span class="badge bg-warning text-dark">خاص</span>
+                    {% endif %}
+                    {% if user['is_verified'] %}
+                        <span class="badge bg-info text-dark">موثّق</span>
+                    {% endif %}
+                </div>
+                {% if user['external_url'] %}
+                    <a href="{{ user['external_url'] }}" target="_blank" class="btn btn-link">{{ user['external_url'] }}</a>
+                {% endif %}
                 <form method="POST" action="/logout" class="mt-4">
                     <button type="submit" class="btn btn-danger">تسجيل الخروج</button>
                 </form>
