@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "vpn-tunnel-api"
+version = "1.0.0"
+description = "VPN Tunnel Backend API"
+authors = ["VPN Tunnel Team"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
